@@ -20,7 +20,8 @@ let configured = false;
 let player, vid, bezelText, bezelTextContainer, svgElement, menuObserver, srcObserver;
 let speedText, speedMenu;
 let timeoutBezel, timeoutMenu;
-let speed = 1; 
+let rateRestoreTimeout; // timeout for restoring speed after YouTube changes it
+let speed = 1;
 
 // try to configure
 configure();

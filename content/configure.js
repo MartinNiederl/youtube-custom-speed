@@ -67,9 +67,16 @@ function configure() {
         }
     }, { capture: true });
 
-    // update speed when switching videos
+    // update speed when switching videos and restore configured speed after YouTube's temporary overrides (e.g., press-and-hold 2x)
     vid.addEventListener('ratechange', e => {
-        changeSpeed();
+        if (vid.playbackRate === speed) return; // ignore our own updates
+
+        if (vid.playbackRate === 1 && speed !== 1) {
+            clearTimeout(rateRestoreTimeout);
+            rateRestoreTimeout = setTimeout(() => {
+                changeSpeed(speed);
+            }, 50);
+        }
     });
 
     // update speed when changing video url
@@ -96,7 +103,7 @@ function restoreSpeed() {
 
 // helper function - save settings to storage
 function setData(key, value) {
-	let object = {}
-	object[key] = value;
-	chrome.storage.sync.set(object);
+    let object = {}
+    object[key] = value;
+    chrome.storage.sync.set(object);
 }

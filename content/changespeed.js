@@ -3,14 +3,17 @@
 // speed change function
 function changeSpeed(newSpeed, layout) {
 
-	// chech if configured
+	// check if configured
 	if (!configure()) return;
 
 	if (!newSpeed) newSpeed = speed;
+	const parsedSpeed = typeof newSpeed === 'string' ? parseFloat(newSpeed) : newSpeed;
+
+	if (Number.isNaN(parsedSpeed)) return;
 
 	// set new speed
-	speed = newSpeed;
-	vid.playbackRate = newSpeed; 
+	speed = parsedSpeed;
+	vid.playbackRate = parsedSpeed;
 	setData('currentSpeed', speed);
 
 	updateLayout();
